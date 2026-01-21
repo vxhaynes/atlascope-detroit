@@ -4,7 +4,7 @@
     "tagline": "is a tool for exploring historic urban atlases in Detroit and telling stories about how places have changed over time",
     "geographicCoverage": "the Detroit area",
     "institutionalShortName": "Leventhal Map & Education Center",
-    "institutionalCredit": "A project of Wayne State University Library System (https://library.wayne.edu) and the [Leventhal Map & Education Center at the Boston Public Library](https://www.leventhalmap.org)",
+    "institutionalCredit": "A project of [Wayne State University Library System](https://library.wayne.edu) and the [Leventhal Map & Education Center at the Boston Public Library](https://www.leventhalmap.org)",
     "maxExtent": [-83.287,42.255,-82.910,42.450],
     "defaultStartLocation": {
         "name": "Default",
