@@ -149,6 +149,7 @@
         "EPSG:4326",
       );
       mapState.extent = extent;
+      postViewStateToParent();
 
       allLayers.layers.forEach((lyr) => {
         lyr.extentVisible = lyr.properties.globalExtent
@@ -297,6 +298,36 @@
     changeLayer("base", mapState.layers.base.id, true);
     changeLayer("overlay", mapState.layers.overlay.id, true);
 
+    function postViewStateToParent() {
+    if (window.parent === window) return;
+
+    let parentOrigin = "*";
+    try {
+      if (document.referrer) {
+        parentOrigin = new URL(document.referrer).origin;
+      }
+    } catch {
+      parentOrigin = "*";
+    }
+
+    const payload = {
+      center: mapState.center,
+      zoom: mapState.zoom,
+      rotation: mapState.rotation,
+      extent: mapState.extent,
+      base: mapState.layers.base.id,
+      overlay: mapState.layers.overlay.id,
+      sentAt: new Date().toISOString()
+    };
+
+    window.parent.postMessage(
+      {
+        type: "atlascope:viewstate",
+        payload
+      },
+      parentOrigin
+    );
+  }
     // This is the function that executes the rendering of the spyglass, swipe, or opacity feature for the overlay layer
     // It's bound to the `prerender` event on `overlayLayer`
     
@@ -368,6 +399,7 @@
 
     dragXY = [window.innerWidth / 4, window.innerHeight / 4];
     mapMoved();
+    postViewStateToParent();
     mapState.mounted = true;
   });
 
