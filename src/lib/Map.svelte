@@ -126,7 +126,36 @@
       mapState.layers[layer].id = newLayer.properties.identifier;
     }
   };
+  function postViewStateToParent() {
+  if (window.parent === window) return;
 
+  let parentOrigin = "*";
+  try {
+    if (document.referrer) {
+      parentOrigin = new URL(document.referrer).origin;
+    }
+  } catch {
+    parentOrigin = "*";
+  }
+
+  const payload = {
+    center: mapState.center,
+    zoom: mapState.zoom,
+    rotation: mapState.rotation,
+    extent: mapState.extent,
+    base: mapState.layers.base.id,
+    overlay: mapState.layers.overlay.id,
+    sentAt: new Date().toISOString()
+  };
+
+  window.parent.postMessage(
+    {
+      type: "atlascope:viewstate",
+      payload
+    },
+    parentOrigin
+  );
+}
   // This function updates the `allLayers` store every time the map is moved, to figure out how many layers are available in the new viewport
   // It does it by running the `intersector` function on each layer's geometry relative to the viewport extent
   // and then sets the `extentVisible` property on that layer in the store
@@ -298,36 +327,6 @@
     changeLayer("base", mapState.layers.base.id, true);
     changeLayer("overlay", mapState.layers.overlay.id, true);
 
-    function postViewStateToParent() {
-    if (window.parent === window) return;
-
-    let parentOrigin = "*";
-    try {
-      if (document.referrer) {
-        parentOrigin = new URL(document.referrer).origin;
-      }
-    } catch {
-      parentOrigin = "*";
-    }
-
-    const payload = {
-      center: mapState.center,
-      zoom: mapState.zoom,
-      rotation: mapState.rotation,
-      extent: mapState.extent,
-      base: mapState.layers.base.id,
-      overlay: mapState.layers.overlay.id,
-      sentAt: new Date().toISOString()
-    };
-
-    window.parent.postMessage(
-      {
-        type: "atlascope:viewstate",
-        payload
-      },
-      parentOrigin
-    );
-  }
     // This is the function that executes the rendering of the spyglass, swipe, or opacity feature for the overlay layer
     // It's bound to the `prerender` event on `overlayLayer`
     
