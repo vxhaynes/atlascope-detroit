@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 2,
+  "description": "GeoJSON-style polygons (longitude, latitude) for annotation.",
+  "areas": [
+    {
+      "id": "campus-core",
+      "title": "Campus core",
+      "description": "This is a test description.",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-83.05135, 42.33295],
+            [-83.04995, 42.33295],
+            [-83.04995, 42.33190],
+            [-83.05135, 42.33190],
+            [-83.05135, 42.33295]
+          ]
+        ]
+      }
+    },
+    {
+      "id": "grand-circus-edge",
+      "title": "Grand Circus edge",
+      "description": "This is another test description.",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-83.04785, 42.33515],
+            [-83.04615, 42.33515],
+            [-83.04615, 42.33405],
+            [-83.04785, 42.33405],
+            [-83.04785, 42.33515]
+          ]
+        ]
+      }
+    },
+    {
+      "id": "riverfront-corridor",
+      "title": "Riverfront corridor",
+      "description": "A third test description.",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-83.04280, 42.32965],
+            [-83.03860, 42.32965],
+            [-83.03860, 42.32895],
+            [-83.04280, 42.32895],
+            [-83.04280, 42.32965]
+          ]
+        ]
+      }
+    }
+  ]
+}
