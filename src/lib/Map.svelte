@@ -127,35 +127,43 @@
     }
   };
   function postViewStateToParent() {
-  if (window.parent === window) return;
-
-  let parentOrigin = "*";
-  try {
-    if (document.referrer) {
-      parentOrigin = new URL(document.referrer).origin;
+    if (window.parent === window) return;
+  
+    let parentOrigin = "*";
+    try {
+      if (document.referrer) {
+        parentOrigin = new URL(document.referrer).origin;
+      }
+    } catch {
+      parentOrigin = "*";
     }
-  } catch {
-    parentOrigin = "*";
+  
+    const snap = $state.snapshot(mapState);
+  
+    const payload = {
+      center: Array.isArray(snap?.center) ? snap.center.map(Number) : null,
+      zoom: Number(snap?.zoom),
+      rotation: Number(snap?.rotation ?? 0),
+      extent: Array.isArray(snap?.extent) ? snap.extent.map(Number) : null,
+      base:
+        typeof snap?.layers?.base === "string"
+          ? snap.layers.base
+          : snap?.layers?.base?.id ?? null,
+      overlay:
+        typeof snap?.layers?.overlay === "string"
+          ? snap.layers.overlay
+          : snap?.layers?.overlay?.id ?? null,
+      sentAt: new Date().toISOString()
+    };
+  
+    window.parent.postMessage(
+      {
+        type: "atlascope:viewstate",
+        payload
+      },
+      parentOrigin
+    );
   }
-
-  const payload = {
-    center: mapState.center,
-    zoom: mapState.zoom,
-    rotation: mapState.rotation,
-    extent: mapState.extent,
-    base: mapState.layers.base.id,
-    overlay: mapState.layers.overlay.id,
-    sentAt: new Date().toISOString()
-  };
-
-  window.parent.postMessage(
-    {
-      type: "atlascope:viewstate",
-      payload
-    },
-    parentOrigin
-  );
-}
   // This function updates the `allLayers` store every time the map is moved, to figure out how many layers are available in the new viewport
   // It does it by running the `intersector` function on each layer's geometry relative to the viewport extent
   // and then sets the `extentVisible` property on that layer in the store
