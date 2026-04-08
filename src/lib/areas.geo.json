@@ -6,6 +6,7 @@
       "id": "location-1",
       "title": "Location 1",
       "description": "This is a test description.",
+      "image": "https://raw.githubusercontent.com/vxhaynes/atlascope-detroit/main/src/lib/Harpers-Weekly.jpg",
       "geometry": {
         "type": "Polygon",
         "coordinates": [
@@ -39,6 +40,7 @@
       "id": "location-3",
       "title": "Location 3",
       "description": "A third test description.",
+      "image": "https://raw.githubusercontent.com/vxhaynes/atlascope-detroit/main/src/lib/engine%2040.jpeg",
       "geometry": {
         "type": "Polygon",
         "coordinates": [
